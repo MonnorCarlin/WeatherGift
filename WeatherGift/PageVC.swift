@@ -36,9 +36,7 @@ class PageVC: UIPageViewController {
     func configurePageControl() {
         let pageControlHeight: CGFloat = barButtonHeight
         let pageControlWidth: CGFloat = view.frame.width - (barButtonWidth * 2)
-        
         let safeHeight = view.frame.height - view.safeAreaInsets.bottom
-        
         pageControl = UIPageControl(frame: CGRect(x: (view.frame.width - pageControlWidth) / 2, y: safeHeight - pageControlHeight, width: pageControlWidth, height: pageControlHeight))
         pageControl.pageIndicatorTintColor = UIColor.lightGray
         pageControl.currentPageIndicatorTintColor = UIColor.black
@@ -48,18 +46,34 @@ class PageVC: UIPageViewController {
     }
     
     func configureListButton() {
+        let barButtonHeight = barButtonWidth
         let safeHeight = view.frame.height - view.safeAreaInsets.bottom
         
         listButton = UIButton(frame: CGRect(x: view.frame.width - barButtonWidth, y: safeHeight - barButtonHeight, width: barButtonWidth, height: barButtonHeight))
+        listButton.setBackgroundImage(UIImage(named: "listbutton"), for: .normal)
+        listButton.setBackgroundImage(UIImage(named: "listbutton-highlighted"), for: .highlighted)
+        listButton.addTarget(self, action: #selector(segueToListVC), for: .touchUpInside)
         
-        listButton.setImage(UIImage(named: "listbutton"), for: .normal)
-        listButton.setImage(UIImage(named: "listbutton-highlighted"), for: .highlighted)
-        listButton.addTarget(self, action: #selector(segueToLocationVC), for: .touchUpInside)
         view.addSubview(listButton)
     }
     
-    @objc func segueToLocationVC() {
-        print("Hey! You Clicked Me!")
+    //MARK:- Segues
+    @objc func segueToListVC() {
+        performSegue(withIdentifier: "ToListVC", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ToListVC" {
+            let destination = segue.destination as! ListVC
+            destination.locationsArray = locationsArray
+            destination.currentPage = currentPage
+        }
+    }
+    
+    @IBAction func unwindFromListVC(sender: UIStoryboardSegue) {
+        pageControl.numberOfPages = locationsArray.count
+        pageControl.currentPage = currentPage
+        setViewControllers([createDetailVC(forPage: currentPage)], direction: .forward, animated: false, completion: nil)
     }
     
     //MARK:- Create View Controller for UIPageController
