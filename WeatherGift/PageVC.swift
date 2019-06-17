@@ -24,6 +24,7 @@ class PageVC: UIPageViewController {
         dataSource = self
         
         setViewControllers([createDetailVC(forPage: 0)], direction: .forward, animated: false, completion: nil)
+        configureListButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
