@@ -43,7 +43,7 @@ class DetailVC: UIViewController {
         dateLabel.text = locationsArray[currentPage].coordinates
         temperatureLabel.text = locationsArray[currentPage].currentTemp
         summaryLabel.text = locationsArray[currentPage].currentSummary
-        print("%%%% currentTemp inside updateUserInterface = \(locationsArray[currentPage].currentTemp)")
+        currentImage.image = UIImage(named: locationsArray[currentPage].currentIcon)
     }
 }
 
