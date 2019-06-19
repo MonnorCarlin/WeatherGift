@@ -30,7 +30,7 @@ class WeatherLocation {
                 } else {
                     print("Could not return a temperature")
                 }
-                if let summary = json["daily"]["summary"].string { // couldn't get this to work
+                if let summary = json["daily"]["summary"].string {
                     self.currentSummary = summary
                 } else {
                     print("Could not return a summary")
